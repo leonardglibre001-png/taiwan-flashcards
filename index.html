@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taiwan Mandarin Flashcards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .counter {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .card {
+            width: 100%;
+            max-width: 350px;
+            height: 220px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 20px;
+            text-align: center;
+            box-sizing: border-box;
+            transition: transform 0.2s;
+        }
+        .card:active {
+            transform: scale(0.98);
+        }
+        .traditional {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .pinyin {
+            font-size: 1.2rem;
+            color: #e67e22;
+            margin-bottom: 10px;
+        }
+        .english {
+            font-size: 1rem;
+            color: #7f8c8d;
+        }
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+        }
+        button:active {
+            background-color: #2980b9;
+        }
+        .audio-btn {
+            background-color: #2ecc71;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Taiwan Mandarin Flashcards</h1>
+    <div class="counter" id="counter">1 / 177</div>
+
+    <div class="card" onclick="flipCard()">
+        <div id="cardContent">
+            <div class="traditional" id="wordTraditional">你好</div>
+            <div class="pinyin" id="wordPinyin">nǐ hǎo</div>
+            <div class="english" id="wordEnglish">Hello</div>
+        </div>
+    </div>
+
+    <button class="audio-btn" onclick="speakWord()">🔊 Pakinggan</button>
+
+    <div class="controls">
+        <button onclick="prevCard()">Previous</button>
+        <button onclick="nextCard()">Next</button>
+    </div>
+
+    <script>
+        const flashcards = [
+            {t: "你好", p: "nǐ hǎo", e: "Hello"},
+            {t: "謝謝", p: "xièxiè", e: "Thank you"},
+            {t: "早安", p: "zǎo ān", e: "Good morning"},
+            // ... (ilagay dito ang iba pang flashcards)
+        ];
+
+        let currentIndex = 0;
+
+        function updateCard() {
+            const card = flashcards[currentIndex];
+            document.getElementById('wordTraditional').innerText = card.t;
+            document.getElementById('wordPinyin').innerText = card.p;
+            document.getElementById('wordEnglish').innerText = card.e;
+            document.getElementById('counter').innerText = `${currentIndex + 1} / ${flashcards.length}`;
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % flashcards.length;
+            updateCard();
+        }
+
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + flashcards.length) % flashcards.length;
+            updateCard();
+        }
+
+        function speakWord() {
+            const card = flashcards[currentIndex];
+            const utterance = new SpeechSynthesisUtterance(card.t);
+            utterance.lang = 'zh-TW'; // Taiwan Mandarin pronunciation
+            window.speechSynthesis.speak(utterance);
+        }
+
+        updateCard();
+    </script>
+</body>
+      </html>
+      
